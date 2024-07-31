@@ -1,9 +1,12 @@
+F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\config\MailConfig.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\config\SecurityConfig.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\controller\HelloController.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\controller\UserRoleController.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\DataInitializer.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\JwtRequest.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\JwtResponse.java
+F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\OtpRequest.java
+F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\OtpResponse.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\Role.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\entity\User.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\JwtAuthenticationEntryPoint.java
@@ -11,5 +14,6 @@ F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRo
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\repository\RoleRepository.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\repository\UserRepository.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\service\JwtUserDetailsService.java
+F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\service\OtpService.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\UserRoleAuthApplication.java
 F:\Project\UserRoleAuthMultifactor\userRoleAuth\src\main\java\com\example\userRoleAuth\util\JwtTokenUtil.java

@@ -1,11 +1,16 @@
 package com.example.userRoleAuth.util;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -72,13 +77,40 @@ public class JwtTokenUtil {
     }
 
     public String generateOtpToken(String otp) {
-        return Jwts.builder().setSubject(otp).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder()
+                .setSubject(otp)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512).compact();
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .compact();
     }
 
     public Boolean validateOtpToken(String token, String otp) {
         final String tokenOtp = getUsernameFromToken(token);
-        return (tokenOtp.equals(otp)) && !isTokenExpired(tokenOtp);
+        return (tokenOtp.equals(otp)) && !isTokenExpired(token);
+    }
+
+    private Map<String, String> otpStore = new ConcurrentHashMap<>();
+
+    public void storeOtp(String username, String otp) {
+        otpStore.put(username, otp);
+        // Remove OTP after 5 minutes
+        scheduleOtpRemoval(username, otp);
+    }
+
+    public boolean validateOtp(String username, String otp) {
+        return otp.equals(otpStore.get(username));
+    }
+
+    @Scheduled(fixedRate = 60000) // Check every minute
+    public void cleanUpExpiredOtps() {
+        otpStore.clear();
+    }
+
+    private void scheduleOtpRemoval(String username, String otp) {
+        // Remove OTP after 5 minutes
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+            otpStore.remove(username, otp);
+        }, 5, TimeUnit.MINUTES);
     }
 }

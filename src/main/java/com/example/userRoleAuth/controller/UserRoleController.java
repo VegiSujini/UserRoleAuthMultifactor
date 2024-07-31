@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.userRoleAuth.entity.JwtRequest;
@@ -62,12 +63,23 @@ public class UserRoleController {
         String otp = generateOtp();
         otpService.sendOtp(authenticationRequest.getUsername(), otp);
 
+        jwtTokenUtil.storeOtp(authenticationRequest.getUsername(), otp);
+
         return new JwtResponse(token, otp);
     }
 
     @PostMapping("/verifyOtp")
-    public OtpResponse verifyOtp(@RequestBody OtpRequest otpRequest) {
-        boolean isValid = jwtTokenUtil.validateOtpToken(otpRequest.getOtpToken(), otpRequest.getOtp());
+    public OtpResponse verifyOtp(@RequestHeader("Authorization") String authHeader,
+            @RequestBody OtpRequest otpRequest) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("JWT String argument cannot be null or empty.");
+        }
+        String jwtToken = authHeader.substring(7); // Extract token
+
+        String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+
+        boolean isValid = jwtTokenUtil.validateOtp(username, otpRequest.getOtp());
+
         return new OtpResponse(isValid ? "OTP Verified" : "Invalid OTP");
     }
 
