@@ -1,10 +1,8 @@
 package com.example.userRoleAuth.controller;
 
-import java.util.Base64;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
-
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,10 +22,8 @@ import com.example.userRoleAuth.entity.User;
 import com.example.userRoleAuth.repository.RoleRepository;
 import com.example.userRoleAuth.repository.UserRepository;
 import com.example.userRoleAuth.service.JwtUserDetailsService;
+import com.example.userRoleAuth.service.OtpService;
 import com.example.userRoleAuth.util.JwtTokenUtil;
-
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 @RestController
 @CrossOrigin
@@ -54,17 +50,6 @@ public class UserRoleController {
     @Autowired
     private OtpService otpService;
 
-    @PostMapping("/register")
-    public User saveUser(@RequestBody User user) throws Exception {
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-        System.out.println(Base64.getEncoder().encodeToString(key.getEncoded()));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findById(1L).orElseThrow(() -> new Exception("Role not found")));
-        user.setRoles(roles);
-        return userRepository.save(user);
-    }
-
     @PostMapping("/authenticate")
     public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -72,7 +57,25 @@ public class UserRoleController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return new JwtResponse(token);
+        String otp = generateOtp();
+        otpService.sendOtp(authenticationRequest.getUsername(), otp);
+
+        return new JwtResponse(token, otp);
+    }
+
+    @PostMapping("/verifyOtp")
+    public OtpResponse verifyOtp(@RequestBody OtpRequest otpRequest) {
+        boolean isValid = jwtTokenUtil.validateOtpToken(otpRequest.getOtpToken(), otpRequest.getOtp());
+        return new OtpResponse(isValid ? "OTP Verified" : "Invalid OTP");
+    }
+
+    @PostMapping("/register")
+    public User saveUser(@RequestBody User user) throws Exception {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findById(1L).orElseThrow(() -> new Exception("Role not found")));
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -81,5 +84,11 @@ public class UserRoleController {
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    private String generateOtp() {
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
+        return String.valueOf(otp);
     }
 }
