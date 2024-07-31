@@ -51,13 +51,12 @@ This project is a Spring Boot application that implements user role-based authen
     }
 3. Access a Protected Resource Using the JWT : 
     ```sh
-        curl -X POST http://localhost:8080/verifyOtp \
+    curl -X POST http://localhost:8080/verifyOtp \
     --header 'Content-Type: application/json' \
-    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWppbmkzNDU2QGdtYWlsLmNvbSIsImlhdCI6MTcyMjQxMDA0MywiZXhwIjoxNzIyNDI4MDQzfQ.8kT8tlSoOcaR9jauo3knxoCDcIhxCxaooNqC5UBDTj3LhtFxgaez_CGVVzGucFq72NFvNpU1Qozn-SZOv3iXpw' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMi......' \
     --data-raw '{
         "otp": "322560"
     }'
-
 
     Expected Response :
     
