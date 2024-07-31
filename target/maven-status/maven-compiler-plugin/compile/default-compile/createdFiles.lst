@@ -1,0 +1,15 @@
+com\example\userRoleAuth\controller\UserRoleController.class
+com\example\userRoleAuth\entity\JwtResponse.class
+com\example\userRoleAuth\util\JwtTokenUtil.class
+com\example\userRoleAuth\repository\RoleRepository.class
+com\example\userRoleAuth\UserRoleAuthApplication.class
+com\example\userRoleAuth\JwtRequestFilter.class
+com\example\userRoleAuth\entity\User.class
+com\example\userRoleAuth\service\JwtUserDetailsService.class
+com\example\userRoleAuth\config\SecurityConfig.class
+com\example\userRoleAuth\controller\HelloController.class
+com\example\userRoleAuth\entity\JwtRequest.class
+com\example\userRoleAuth\repository\UserRepository.class
+com\example\userRoleAuth\entity\Role.class
+com\example\userRoleAuth\JwtAuthenticationEntryPoint.class
+com\example\userRoleAuth\DataInitializer.class

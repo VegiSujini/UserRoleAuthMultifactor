@@ -70,4 +70,15 @@ public class JwtTokenUtil {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    public String generateOtpToken(String otp) {
+        return Jwts.builder().setSubject(otp).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512).compact();
+    }
+
+    public Boolean validateOtpToken(String token, String otp) {
+        final String tokenOtp = getUsernameFromToken(token);
+        return (tokenOtp.equals(otp)) && !isTokenExpired(tokenOtp);
+    }
 }
