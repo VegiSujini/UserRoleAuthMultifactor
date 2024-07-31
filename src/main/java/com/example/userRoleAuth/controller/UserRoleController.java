@@ -51,6 +51,9 @@ public class UserRoleController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private OtpService otpService;
+
     @PostMapping("/register")
     public User saveUser(@RequestBody User user) throws Exception {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
