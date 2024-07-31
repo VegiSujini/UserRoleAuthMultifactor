@@ -1,13 +1,14 @@
-# Spring Boot JWT Authentication
+# User Role-Based Authentication with OTP Verification
 
-This project demonstrates a Spring Boot application integrated with Spring Security for JWT authentication and role-based authorization.
+This project is a Spring Boot application that implements user role-based authentication with JWT (JSON Web Token) and OTP (One-Time Password) verification. The application includes endpoints for user registration, authentication, and OTP verification.
 
-## Features
+## Prerequisites
 
-- User registration with password encryption
-- JWT-based authentication
-- Role-based access control
-- In-memory H2 database
+- Java 11 or higher
+- Maven
+- Spring Boot
+- H2
+- A Gmail account with an [App Password](https://myaccount.google.com/u/2/apppasswords?pli=1&rapt=AEjHL4O9OnKOoFfGPULaZVjElff0-E0xeBQrln_lXcWIqkkbRq_4vWAhJpvLnYSKE4b9HWBDTotQWoG_nFgcWtIThwS3Zkht4Vc1GtFNyKSJ6hBYSYY6jl4) for sending OTPs
 
 ## Getting Started
 
@@ -17,7 +18,7 @@ This project demonstrates a Spring Boot application integrated with Spring Secur
     curl -X POST http://localhost:8080/register \
     -H "Content-Type: application/json" \
     -d '{
-    "username": "user",
+    "username": "your-email@gmail.com",
     "password": "password"
     }'
     
@@ -39,7 +40,7 @@ This project demonstrates a Spring Boot application integrated with Spring Secur
     curl -X POST http://localhost:8080/authenticate \
     -H "Content-Type: application/json" \
     -d '{
-    "username": "user",
+    "username": "your-email@gmail.com",
     "password": "password"
     }'
 
@@ -50,26 +51,25 @@ This project demonstrates a Spring Boot application integrated with Spring Secur
     }
 3. Access a Protected Resource Using the JWT : 
     ```sh
-    curl -X GET http://localhost:8080/hello \
-    -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9..."
+        curl -X POST http://localhost:8080/verifyOtp \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWppbmkzNDU2QGdtYWlsLmNvbSIsImlhdCI6MTcyMjQxMDA0MywiZXhwIjoxNzIyNDI4MDQzfQ.8kT8tlSoOcaR9jauo3knxoCDcIhxCxaooNqC5UBDTj3LhtFxgaez_CGVVzGucFq72NFvNpU1Qozn-SZOv3iXpw' \
+    --data-raw '{
+        "otp": "322560"
+    }'
+
 
     Expected Response :
     
     {
-    "message": "Hello, user!"
+    "message": "OTP Verified"
     }
 
 
+## Setup
+**Clone the repository**:
 
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
 
-### Prerequisites
-
-- Java 11 or later
-- Maven
-
-### Installation
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/VegiSujini/userRoleAuth.git
-   cd userRoleAuth
