@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.userRoleAuth.entity.JwtRequest;
 import com.example.userRoleAuth.entity.JwtResponse;
+import com.example.userRoleAuth.entity.OtpRequest;
+import com.example.userRoleAuth.entity.OtpResponse;
 import com.example.userRoleAuth.entity.Role;
 import com.example.userRoleAuth.entity.User;
 import com.example.userRoleAuth.repository.RoleRepository;

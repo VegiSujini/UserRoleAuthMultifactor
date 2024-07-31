@@ -8,5 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class JwtResponse implements Serializable {
+
     private final String token;
+    private final String otp;
 }
