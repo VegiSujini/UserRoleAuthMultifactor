@@ -69,6 +69,6 @@ This project is a Spring Boot application that implements user role-based authen
 **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/VegiSujini/UserRoleAuthMultifactor.git
+   cd UserRoleAuthMultifactor
 
